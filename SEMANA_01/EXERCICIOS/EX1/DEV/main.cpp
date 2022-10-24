@@ -1,76 +1,123 @@
 #include <iostream>
 #include <string>
-
-// 1 -  Fa√ßa uma fun√ß√£o que recebe uma certa medida e ajusta ela percentualmente 
-// entre dois valores m√≠nimo e m√°ximo e retorna esse valor
-
-// 2 - Fa√ßa uma fun√ß√£o que simule a leitura de um sensor lendo o 
-// valor do teclado ao final a fun√ß√£o retorna este valor
-
-// 3 - Fa√ßa uma fun√ß√£o que armazena uma medida inteira qualquer 
-// em um vetor fornecido. Note que como C n√£o possui vetores 
-// nativos da linguagem, lembre-se que voc√™ precisa passar o 
-// valor m√°ximo do vetor assim como a √∫ltima posi√ß√£o preenchida
-// Evite tamb√©m que, por acidente, um valor seja escrito em 
-// uma √°rea de mem√≥ria fora do vetor
+using namespace std;
+// 1 -  FaÁa uma funÁ„o que recebe uma certa medida e ajusta ela percentualmente 
+// entre dois valores mÌnimo e m·ximo e retorna esse valor
+ 
+int converteSensor(int valor, int minimo, int maximo)  {
+	int porcentagem = 0;
+	porcentagem = int ((float(valor - minimo )/float(maximo - minimo)) * 100);
+	return porcentagem;
+}
 
 
+// 2 - FaÁa uma funÁ„o que simule a leitura de um sensor lendo o 
+// valor do teclado ao final a funÁ„o retorna este valor
+int leComando(void){
+	int value = 0;
+	cout << ("Insira o numero: ");
+	cin >> value;
+	return value; 
+}
 
-// 4 - Fa√ßa uma fun√ß√£o que recebe um vetor com 4 posi√ß√µes que cont√©m 
-// o valor da dist√¢ncia de um pequeno rob√¥ at√© cada um dos seus 4 lados.
-// A fun√ß√£o deve retornar duas informa√ß√µes: A primeira √© a dire√ß√£o 
-// de maior dist√¢ncia ("Direita", "Esquerda", "Frente", "Tras") e a 
-// segunda √© esta maior dist√¢ncia.
+// 3 - FaÁa uma funÁ„o que armazena uma medida inteira qualquer 
+// em um vetor fornecido. Note que como C n„o possui vetores 
+// nativos da linguagem, lembre-se que vocÍ precisa passar o 
+// valor m·ximo do vetor assim como a ˙ltima posiÁ„o preenchida
+// Evite tambÈm que, por acidente, um valor seja escrito em 
+// uma ·rea de memÛria fora do vetor
+
+int InsertInArray(int newValue , int LastIndex , int *v , int maxSize)
+{
+	int *array = v;
+	array[LastIndex] = newValue;
+	return LastIndex+1;
+}
 
 
+// 4 - FaÁa uma funÁ„o que recebe um vetor com 4 posiÁıes que contÈm 
+// o valor da dist‚ncia de um pequeno robÙ atÈ cada um dos seus 4 lados.
+// A funÁ„o deve retornar duas informaÁıes: A primeira È a direÁ„o 
+// de maior dist‚ncia ("Direita", "Esquerda", "Frente", "Tras") e a 
+// segunda È esta maior dist‚ncia.
+
+const char* direcaoMenorCaminho(int *array , int*maxValue){
+	const char* directions[] = {"Direita", "Esquerda", "Frente", "Tras"};
+	
+	int index = -1;
+
+	for(int o = 0; o < 4; o++){
+		if(array[o] > *maxValue){
+			*maxValue = array[o];
+			index = o;
+		}
+	}
+	return directions[index];
+}
 
 
-// 5 - Fa√ßa uma fun√ß√£o que pergunta ao usu√°rio se ele deseja continuar o mapeamento e 
+// 5 - FaÁa uma funÁ„o que pergunta ao usu·rio se ele deseja continuar o mapeamento e 
 // retorna verdadeiro ou falso
+int continuarMapeamento(){
+    int resposta = 0;
+    cout << ("Para continuar 1, para parar 2.");
+    
+    cin >> resposta;
+    if (resposta == true)
+    {
+        return resposta;
+    }
+    else
+    {
+        return 0;
+    }
+}
 
-
-// 6 - A fun√ß√£o abaixo (que est√° incompleta) vai "dirigindo" virtualmente um rob√¥ 
-// e atrav√©s de 4 sensores em cada um dos 4 pontos do robo ("Direita", "Esquerda", 
+// 6 - A funÁ„o abaixo (que est· incompleta) vai "dirigindo" virtualmente um robÙ 
+// e atravÈs de 4 sensores em cada um dos 4 pontos do robo ("Direita", "Esquerda", 
 // "Frente", "Tras"). 
-//      A cada passo, ele verifica as dist√¢ncias aos objetos e vai mapeando o terreno 
-// para uma movimenta√ß√£o futura. 
-//      Ele vai armazenando estas distancias em um vetor fornecido como par√¢metro 
+//      A cada passo, ele verifica as dist‚ncias aos objetos e vai mapeando o terreno 
+// para uma movimentaÁ„o futura. 
+//      Ele vai armazenando estas distancias em um vetor fornecido como par‚metro 
 // e retorna a ultima posicao preenchida do vetor.
-//      Esta fun√ß√£o deve ir lendo os 4 sensores at√© que um comando de pare seja enviado 
+//      Esta funÁ„o deve ir lendo os 4 sensores atÈ que um comando de pare seja enviado 
 //
-//      Para simular os sensores e os comandos de pare, use as fun√ß√µes j√° constru√≠das 
-// nos √≠tens anteriores e em um looping cont√≠nuo at√© que um pedido de parada seja 
-// enviado pelo usu√°rio. 
+//      Para simular os sensores e os comandos de pare, use as funÁıes j· construÌdas 
+// nos Ìtens anteriores e em um looping contÌnuo atÈ que um pedido de parada seja 
+// enviado pelo usu·rio. 
 //
-//      Complete a fun√ß√£o com a chamada das fun√ß√µes j√° criadas
+//      Complete a funÁ„o com a chamada das funÁıes j· criadas
 int dirige(int *v,int maxv){
 	int maxVetor = maxv;
 	int *vetorMov = v;
 	int posAtualVetor = 0;
 	int dirigindo = 1;		
-	while(dirigindo){		
-		int medida = /// .. Chame a fun√ß√£o de de leitura da medida para a "Direita"
-		medida = converteSensor(medida,0,830);
-		posAtualVetor = // Chame a fun√ß√£o para armazenar a medida no vetor
+	while(dirigindo == 1){		
+		for(int i=0; i < 4; i++){
+			int medida = leComando(); /// .. Chame a funÁ„o de de leitura da medida para a "Direita"
+			medida = converteSensor(medida,0,830);
+			posAtualVetor = InsertInArray(posAtualVetor, medida, vetorMov, maxVetor);
+		}
+		// Chame a funÁ„o para armazenar a medida no vetor
         ///////////////////////////////////////////////////////////////////////////		
 		// Repita as chamadas acima para a "Esquerda", "Frente", "Tras"
 		// ................
 		///////////////////////////////////////////////////////////////////////////
-		dirigindo = leComando();		
+		dirigindo = continuarMapeamento();		
 	}
 	return posAtualVetor;
 }
 
 
-// O trecho abaixo ir√° utilizar as fun√ß√µes acima para ler os sensores e o movimento
-// do rob√¥ e no final percorrer o vetor e mostrar o movimento a cada dire√ß√£o baseado 
-// na maior dist√¢ncia a cada movimento
+// O trecho abaixo ir· utilizar as funÁıes acima para ler os sensores e o movimento
+// do robÙ e no final percorrer o vetor e mostrar o movimento a cada direÁ„o baseado 
+// na maior dist‚ncia a cada movimento
 void percorre(int *v,int tamPercorrido){		
 	int *vetorMov = v;
 	int maiorDir = 0;
 	
 	for(int i = 0; i< tamPercorrido; i+=4){
-		char *direcao = direcaoMenorCaminho(&(vetorMov[i]),&maiorDir);
+		const char* direcao = direcaoMenorCaminho(&(vetorMov[i]),&maiorDir);
 		printf("Movimentando para %s distancia = %i\n",direcao,maiorDir);
 	}
 }
