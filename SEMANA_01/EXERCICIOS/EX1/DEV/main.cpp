@@ -50,8 +50,7 @@ const char* direcaoMenorCaminho(int *array , int*maxValue){
 	}
 	return directions[index];
 }
-// 5 - Faça uma função que pergunta ao usuário se ele deseja continuar o mapeamento e 
-// retorna verdadeiro ou falso
+// 5 - Faça uma função que pergunta ao usuário se ele deseja continuar o mapeamento e  // retorna verdadeiro ou falso
 int continuarMapeamento(){
     int resposta = 0;
     cout << ("Para continuar 1, para parar 2.");
