@@ -1,4 +1,4 @@
-.choiceBtn{
+.Botoes{
     line-height: 30px;
     width: 150px;
     border-radius: 10px;
@@ -6,12 +6,12 @@
     background-color: greenyellow;
 }
 
-.choiceBtn:hover{
+.Botoes:hover{
     background-color: #4CAF50;
     color: white;
 }
 
-.choiceBtn:active{
+.Botoes:active{
     background-color: #3e8e41;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
