@@ -13,7 +13,6 @@
 #define I2C_SCL 47
 
 
-
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 AsyncWebServer server(80);
@@ -63,8 +62,22 @@ const char index_html[] PROGMEM = R"rawliteral(
             playerText.textContent = "Player: " + player;
             ComputadorText.textContent = "Computador: " + Computador;
             resultText.textContent = checkWinner();
-        
+
             result = checkWinner();
+
+              if result == "Perdeu!" {
+              $.get("http://10.128.65.158:80/Perdeu", function(Perdeu){
+            }
+
+              if result == "Empate!" {
+              $.get("http://10.128.65.158:80/Empate", function(Empate){
+            }
+
+              if result == "Ganhou!" {
+              $.get("http://10.128.65.158:80/Ganhou", function(Ganhou){
+            }
+
+
         }));
         
         
@@ -137,6 +150,7 @@ void setup() {
   Serial.println(WiFi.localIP());
 
 
+
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/html", index_html);
   });
@@ -145,8 +159,6 @@ void setup() {
   server.on("/get", HTTP_GET, [] (AsyncWebServerRequest *request) {
     String inputMessage;
     String inputParam;
-
-
 
     if (request->hasParam(PARAM_INPUT_1)) {
       inputMessage = request->getParam(PARAM_INPUT_1)->value();
@@ -168,8 +180,11 @@ void setup() {
                                      + inputParam + ") resultText: " + inputMessage 
                                      );
   });
+
   server.onNotFound(notFound);
   server.begin();
+
+
 }
 
 void loop() {
