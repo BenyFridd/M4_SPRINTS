@@ -35,9 +35,22 @@
             playerText.textContent = "Player: " + player;
             ComputadorText.textContent = "Computador: " + Computador;
             resultText.textContent = checkWinner();
-        
+
             result = checkWinner();
-            console.log(result);
+
+              if (result == "Perdeu!") {
+              $.get("http://10.128.65.158:80/Perdeu", function(Perdeu){
+            });}
+
+              if (result == "Empate!") {
+              $.get("http://10.128.65.158:80/Empate", function(Empate){
+            });}
+
+              if (result == "Ganhou!") {
+              $.get("http://10.128.65.158:80/Ganhou", function(Ganhou){
+            });}
+
+
         }));
         
         
@@ -80,10 +93,6 @@
               return "Ganhou!"
             }
         }
-
-        console.log(result);
-
-        
-        </script>  
+        console.log(result)
+        </script>
 </body>
-</html>
