@@ -1,11 +1,6 @@
 #include <Arduino.h>
-#ifdef ESP32
-  #include <WiFi.h>
-  #include <AsyncTCP.h>
-#else
-  #include <ESP32WiFi.h>
-  #include <ESPAsyncTCP.h>
-#endif
+#include <WiFi.h>
+#include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <LiquidCrystal_I2C.h>
 
@@ -22,8 +17,6 @@ const char* ssid = "Inteli-COLLEGE";
 const char* password =  "QazWsx@123";
 
 
-const char* PARAM_INPUT_1 = "result";
-
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE html>
 <html lang="en">
@@ -31,6 +24,7 @@ const char index_html[] PROGMEM = R"rawliteral(
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
     <title>Document</title>
 </head>
 <body>
@@ -65,17 +59,17 @@ const char index_html[] PROGMEM = R"rawliteral(
 
             result = checkWinner();
 
-              if result == "Perdeu!" {
-              $.get("http://10.128.65.158:80/Perdeu", function(Perdeu){
-            }
+              if (result == "Perdeu!") {
+              $.get("http://10.128.65.158:80/Perdeu", function(){
+            });}
 
-              if result == "Empate!" {
-              $.get("http://10.128.65.158:80/Empate", function(Empate){
-            }
+              if (result == "Empate!") {
+              $.get("http://10.128.65.158:80/Empate", function(){
+            });}
 
-              if result == "Ganhou!" {
-              $.get("http://10.128.65.158:80/Ganhou", function(Ganhou){
-            }
+              if (result == "Ganhou!") {
+              $.get("http://10.128.65.158:80/Ganhou", function(){
+            });}
 
 
         }));
@@ -130,6 +124,18 @@ void notFound(AsyncWebServerRequest *request) {
   request->send(404, "text/plain", "Not found");
 }
 
+void Ganhou(){
+  lcd.print("ganhou");
+}
+
+void Perdeu(){
+  lcd.print("perdeu");
+}
+
+void Empate(){
+  lcd.print("empate");
+}
+  
 void setup() {
  Wire.begin(I2C_SDA, I2C_SCL);
   lcd.init();
@@ -160,32 +166,37 @@ void setup() {
     String inputMessage;
     String inputParam;
 
-    if (request->hasParam(PARAM_INPUT_1)) {
-      inputMessage = request->getParam(PARAM_INPUT_1)->value();
-      inputParam = PARAM_INPUT_1;
-    }
-  
-    else {
-      inputMessage = "No message sent";
-      inputParam = "none";
-    }
-
-    lcd.print(inputMessage);
-    Serial.println(inputMessage);
     delay(2000);
     lcd.clear();
+  });
+   
+  server.on("/Ganhou", HTTP_GET, [](AsyncWebServerRequest *request){
+    lcd.print("ganhou");
+    delay(500);
+    lcd.clear();
+  });
 
+  server.on("/Perdeu", HTTP_GET, [](AsyncWebServerRequest *request){
+    lcd.print("perdeu");
+    delay(500);
+    lcd.clear();
 
-    request->send(200, "text/html", "HTTP GET request enviado(" 
-                                     + inputParam + ") resultText: " + inputMessage 
-                                     );
+  });
+
+    server.on("/Empate", HTTP_GET, [](AsyncWebServerRequest *request){
+    lcd.print("empate");
+    delay(500);
+    lcd.clear();
+
   });
 
   server.onNotFound(notFound);
   server.begin();
 
 
+
 }
+
 
 void loop() {
 
